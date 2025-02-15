@@ -1,4 +1,7 @@
 package com.hotel.HotelService.repository;
 
-public class RoomRepository {
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface RoomRepository {
 }
