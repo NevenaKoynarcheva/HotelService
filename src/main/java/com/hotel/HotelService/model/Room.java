@@ -14,6 +14,7 @@ public class Room {
     @NotNull
     private int roomNumber;
     @NotNull
+    @Enumerated(EnumType.STRING)
     private RoomType roomType;
     @NotNull
     private double price;
