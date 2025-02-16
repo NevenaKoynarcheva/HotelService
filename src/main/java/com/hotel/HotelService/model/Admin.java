@@ -1,7 +1,7 @@
 package com.hotel.HotelService.model;
 import jakarta.persistence.*;
 import org.antlr.v4.runtime.misc.NotNull;
-import org.springframework.lang.NonNull;
+
 
 @Entity
 @Table(name = "admin")
