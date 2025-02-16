@@ -1,9 +1,19 @@
 package com.hotel.HotelService.model;
+import jakarta.persistence.*;
+import org.antlr.v4.runtime.misc.NotNull;
+
+@Entity
+@Table(name = "customer")
 
 public class Customer {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @NotNull
     private String username;
+    @NotNull
     private String password;
+    @NotNull
     private String email;
 
     public Customer(int id, String username, String password, String email) {

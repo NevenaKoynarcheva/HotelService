@@ -1,8 +1,18 @@
 package com.hotel.HotelService.model;
+import jakarta.persistence.*;
+import org.antlr.v4.runtime.misc.NotNull;
+import org.springframework.lang.NonNull;
+
+@Entity
+@Table(name = "admin")
 
 public class Admin {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @NotNull
     private String username;
+    @NotNull
     private String password;
 
     public Admin(int id, String username, String password) {

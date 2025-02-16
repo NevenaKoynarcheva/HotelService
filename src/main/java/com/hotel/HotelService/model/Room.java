@@ -1,16 +1,27 @@
 package com.hotel.HotelService.model;
 
+import jakarta.persistence.*;
+import org.antlr.v4.runtime.misc.NotNull;
+
 import java.util.List;
-
+@Entity
+@Table(name = "room")
 public class Room {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @NotNull
     private int roomNumber;
+    @NotNull
     private String roomType;
+    @NotNull
     private double price;
+    @NotNull
     private List<String> benefits;
-    private String bookingStatus;
+    @NotNull
+    private boolean bookingStatus;
 
-    public Room(int id, int roomNumber, String roomType, double price, List<String> benefits, String bookingStatus) {
+    public Room(int id, int roomNumber, String roomType, double price, List<String> benefits, boolean bookingStatus) {
         this.id = id;
         this.roomNumber = roomNumber;
         this.roomType = roomType;
@@ -61,11 +72,11 @@ public class Room {
         this.benefits = benefits;
     }
 
-    public String getBookingStatus() {
+    public boolean getBookingStatus() {
         return bookingStatus;
     }
 
-    public void setBookingStatus(String bookingStatus) {
+    public void setBookingStatus(boolean bookingStatus) {
         this.bookingStatus = bookingStatus;
     }
 }

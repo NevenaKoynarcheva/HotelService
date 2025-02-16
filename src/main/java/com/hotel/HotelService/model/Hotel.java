@@ -1,8 +1,17 @@
 package com.hotel.HotelService.model;
 
+import jakarta.persistence.*;
+import org.antlr.v4.runtime.misc.NotNull;
+
+@Entity
+@Table(name = "hotel")
 public class Hotel {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @NotNull
     private String name;
+    @NotNull
     private String description;
 
     public Hotel(int id, String name, String description){
