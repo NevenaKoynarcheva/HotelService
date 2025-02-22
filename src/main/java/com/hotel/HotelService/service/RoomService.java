@@ -21,10 +21,7 @@ public class RoomService {
 
     }
     public boolean isExist(Room room){
-            if (roomRepository.existsById(room.getId())){
-                return true;
-            }
-        return false;
+        return roomRepository.existsById(room.getId());
     }
     public Room findRoomById(int id){
         List<Room> rooms = findAll();

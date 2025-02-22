@@ -15,8 +15,11 @@ public class AdminService {
     private RoomRepository roomRepository;
 
     public void addRoom(Room room) {
-        roomRepository.save(room); //We can have exact same rooms in our hotel
-
+        if (!roomRepository.existsByRoomNumber(room.getRoomNumber())){
+            roomRepository.save(room); //Можем да имаме еднакви стаи в хотела
+        }else {
+            throw new IllegalArgumentException("Не могат две стаи да са с един и същ номер");
+        }
     }
 
 
@@ -52,14 +55,20 @@ public class AdminService {
             if (index != -1) {
                 benefits.remove(index);
             } else {
-                throw new IllegalArgumentException("The room already doesn't contains this benefit");
+                throw new IllegalArgumentException("Стаята не съдържа това удобство");
             }
+        }
+    }
+
+    public void changePrice(int roomId, double price){
+        if (existRoomById(roomId)){
+            roomRepository.getReferenceById(roomId).setPrice(price);
         }
     }
 
     private boolean existRoomById(int roomId) {
         if (!roomRepository.existsById(roomId)) {
-            throw new IllegalArgumentException("The room doesn't exist");
+            throw new IllegalArgumentException("Стаята не съществува");
         }
         return true;
     }
