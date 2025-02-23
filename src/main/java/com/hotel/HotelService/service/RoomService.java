@@ -40,14 +40,14 @@ public class RoomService {
     }
 
 
-    public void deleteRoom(int id){
-        if (findRoomById(id)!=null){
-            roomRepository.deleteById(id);
-        }else{
-            throw new IllegalArgumentException("Липсва такава стая");
-        }
-
-    }
+//    public void deleteRoom(int id){
+//        if (findRoomById(id)!=null){
+//            roomRepository.deleteById(id);
+//        }else{
+//            throw new IllegalArgumentException("Липсва такава стая");
+//        }
+//
+//    }
 
     public boolean isRoomAvailable(int roomId, LocalDate checkIn, LocalDate checkOut) {
         if (checkIn.isAfter(checkOut)) {
@@ -69,6 +69,7 @@ public class RoomService {
         if (room.getBookingStatus()) {
             throw new RuntimeException("Стаята е заета");
         }
+
         room.setCheckIn(checkInDate);
         room.setBookingStatus(true);
         return roomRepository.save(room);
@@ -89,7 +90,7 @@ public class RoomService {
          List<Room> rooms = findAll();
          List<Room> roomsByType = new ArrayList<>();
          for (Room room : rooms){
-             if (room.getRoomType().equals(roomType)) {
+             if (room.getRoomType().equals(roomType) && room.isActives()) {
                  roomsByType.add(room);
              }
          }

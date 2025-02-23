@@ -16,6 +16,7 @@ public class AdminService {
 
     public void addRoom(Room room) {
         if (!roomRepository.existsByRoomNumber(room.getRoomNumber())){
+            room.setActives(true);
             roomRepository.save(room); //Можем да имаме еднакви стаи в хотела
         }else {
             throw new IllegalArgumentException("Не могат две стаи да са с един и същ номер");
@@ -23,11 +24,24 @@ public class AdminService {
     }
 
 
+    public void deactivateRoom(int roomId) {
+        Room room = roomRepository.findById(roomId)
+                .orElseThrow(() -> new IllegalArgumentException("Стаята не съществува"));
 
-    public void deleteRoom(int roomId) {
-        if(existRoomById(roomId)){
-            roomRepository.deleteById(roomId);
+        if (room.getBookingStatus()) {
+            throw new RuntimeException("Стаята е заета и не може да бъде деактивирана");
         }
+
+        room.setActives(false);
+        roomRepository.save(room);
+    }
+
+    public void reactivateRoom(int roomId) {
+        Room room = roomRepository.findById(roomId)
+                .orElseThrow(() -> new IllegalArgumentException("Стаята не съществува"));
+
+        room.setActives(true);
+        roomRepository.save(room);
     }
 
     public void addBenefit(int roomId, String benefit) {
