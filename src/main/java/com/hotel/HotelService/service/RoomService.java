@@ -50,6 +50,10 @@ public class RoomService {
     }
 
     public boolean isRoomAvailable(int roomId, LocalDate checkIn, LocalDate checkOut) {
+        if (checkIn.isAfter(checkOut)) {
+            throw new IllegalArgumentException("Невалидни дати: checkIn трябва да е преди checkOut");
+        }
+
         Room room = findRoomById(roomId);
         if (!room.getBookingStatus()) {
             return true;
@@ -60,7 +64,7 @@ public class RoomService {
         return checkIn.isAfter(existingCheckOut) || checkOut.isBefore(existingCheckIn);
     }
 
-    public Room checkIn(int roomId, LocalDate checkInDate) {
+     Room checkIn(int roomId, LocalDate checkInDate) {
         Room room = findRoomById(roomId);
         if (room.getBookingStatus()) {
             throw new RuntimeException("Стаята е заета");
@@ -70,7 +74,7 @@ public class RoomService {
         return roomRepository.save(room);
     }
 
-    public Room checkOut(int roomId, LocalDate checkOutDate) {
+    Room checkOut(int roomId, LocalDate checkOutDate) {
         Room room = findRoomById(roomId);
         if (!room.getBookingStatus()) {
             throw new RuntimeException("Стаята е свободна");
