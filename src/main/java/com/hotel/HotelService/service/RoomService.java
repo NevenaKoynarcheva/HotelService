@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -64,7 +65,7 @@ public class RoomService {
         return checkIn.isAfter(existingCheckOut) || checkOut.isBefore(existingCheckIn);
     }
 
-     Room checkIn(int roomId, LocalDate checkInDate) {
+     public Room checkIn(int roomId, LocalDate checkInDate) {
         Room room = findRoomById(roomId);
         if (room.getBookingStatus()) {
             throw new RuntimeException("Стаята е заета");
@@ -75,7 +76,7 @@ public class RoomService {
         return roomRepository.save(room);
     }
 
-    Room checkOut(int roomId, LocalDate checkOutDate) {
+    public Room checkOut(int roomId, LocalDate checkOutDate) {
         Room room = findRoomById(roomId);
         if (!room.getBookingStatus()) {
             throw new RuntimeException("Стаята е свободна");
@@ -106,9 +107,77 @@ public class RoomService {
          return rooms;
     }
 
+    public void addRoom(Room room) {
+        if (!roomRepository.existsByRoomNumber(room.getRoomNumber())){
+            room.setActives(true);
+            roomRepository.save(room); //Можем да имаме еднакви стаи в хотела
+        }else {
+            throw new IllegalArgumentException("Не могат две стаи да са с един и същ номер");
+        }
+    }
 
 
+    public void deactivateRoom(int roomId) {
+        Room room = roomRepository.findById(roomId)
+                .orElseThrow(() -> new IllegalArgumentException("Стаята не съществува"));
 
+        if (room.getBookingStatus()) {
+            throw new RuntimeException("Стаята е заета и не може да бъде деактивирана");
+        }
+
+        room.setActives(false);
+        roomRepository.save(room);
+    }
+
+    public void reactivateRoom(int roomId) {
+        Room room = roomRepository.findById(roomId)
+                .orElseThrow(() -> new IllegalArgumentException("Стаята не съществува"));
+
+        room.setActives(true);
+        roomRepository.save(room);
+    }
+
+    public void addBenefit(int roomId, String benefit) {
+        if (existRoomById(roomId)) {
+            Room room = roomRepository.getReferenceById(roomId);
+
+            List<String> benefits = Arrays.stream(room.getBenefits().split(", ")).toList();
+            if (!benefits.contains(benefit)) {
+                room.setBenefits(", " + benefit);
+            }
+        }
+
+    }
+
+    public void deleteBenefit(int roomId, String benefit) {
+        if (existRoomById(roomId)) {
+            Room room = roomRepository.getReferenceById(roomId);
+            List<String> benefits = new ArrayList<>(Arrays.stream(room.getBenefits().split(", ")).toList());
+            int index = -1;
+            if (benefits.contains(benefit)) {
+                index = benefits.indexOf(benefit);
+            }
+
+            if (index != -1) {
+                benefits.remove(index);
+            } else {
+                throw new IllegalArgumentException("Стаята не съдържа това удобство");
+            }
+        }
+    }
+
+    public void changePrice(int roomId, double price){
+        if (existRoomById(roomId)){
+            roomRepository.getReferenceById(roomId).setPrice(price);
+        }
+    }
+
+     boolean existRoomById(int roomId) {
+        if (!roomRepository.existsById(roomId)) {
+            throw new IllegalArgumentException("Стаята не съществува");
+        }
+        return true;
+    }
 
 }
 
