@@ -21,14 +21,14 @@ public class CustomerController {
             @RequestParam String username,
             @RequestParam String password) {
         customerService.logIn(username, password);
-        return ResponseEntity.ok("Добре дошли");
+        return ResponseEntity.ok("Добре дошли " + username);
     }
 
     @PostMapping("/register")
     public ResponseEntity<String> saveUser(
             @RequestParam String username,
             @RequestParam String password,
-            @RequestParam String email) {
+            @RequestParam String email){
         customerService.saveUser(username, password, email);
         return ResponseEntity.ok("Регистрацията е успешна");
     }

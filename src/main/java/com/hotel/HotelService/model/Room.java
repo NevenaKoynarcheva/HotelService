@@ -29,9 +29,10 @@ public class Room {
     private LocalDate checkOut;
     @NotNull
     private boolean bookingStatus;
-    private boolean actives;
+    @NotNull
+    private boolean status;
 
-    public Room(int id, int roomNumber, RoomType roomType, double price, String benefits, LocalDate checkIn, LocalDate checkOut, boolean bookingStatus, boolean statusOfActives) {
+    public Room(int id, int roomNumber, RoomType roomType, double price, String benefits, LocalDate checkIn, LocalDate checkOut, boolean bookingStatus, boolean status) {
         this.id = id;
         this.roomNumber = roomNumber;
         this.roomType = roomType;
@@ -40,7 +41,7 @@ public class Room {
         this.checkIn = checkIn;
         this.checkOut = checkOut;
         this.bookingStatus = bookingStatus;
-        this.actives = statusOfActives;
+        this.status = status;
     }
 
     public Room() {
@@ -110,11 +111,11 @@ public class Room {
         this.checkOut = checkOut;
     }
 
-    public boolean isActives() {
-        return actives;
+    public boolean getStatus() {
+        return status;
     }
 
-    public void setActives(boolean actives) {
-        this.actives = actives;
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 }

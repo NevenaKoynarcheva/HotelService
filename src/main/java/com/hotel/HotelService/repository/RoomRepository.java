@@ -9,5 +9,5 @@ import java.util.List;
 @Repository
 public interface RoomRepository extends JpaRepository<Room, Integer> {
     boolean existsByRoomNumber(int roomNumber);
-    List<Room> findByStatus(String status);
+    List<Room> findByStatus(boolean status);
 }

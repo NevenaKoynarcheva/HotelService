@@ -65,7 +65,7 @@ public class RoomService {
         return checkIn.isAfter(existingCheckOut) || checkOut.isBefore(existingCheckIn);
     }
 
-     public Room checkIn(int roomId, LocalDate checkInDate) {
+    public Room checkIn(int roomId, LocalDate checkInDate) {
         Room room = findRoomById(roomId);
         if (room.getBookingStatus()) {
             throw new RuntimeException("Стаята е заета");
@@ -88,28 +88,28 @@ public class RoomService {
 
 
     public List<Room> findAvailableRoomsByType(RoomType roomType, LocalDate checkIn, LocalDate checkOut) {
-         List<Room> rooms = findAll();
-         List<Room> roomsByType = new ArrayList<>();
-         for (Room room : rooms){
-             if (room.getRoomType().equals(roomType) && room.isActives()) {
-                 roomsByType.add(room);
-             }
-         }
+        List<Room> rooms = findAll();
+        List<Room> roomsByType = new ArrayList<>();
+        for (Room room : rooms){
+            if (room.getRoomType().equals(roomType) && room.getStatus()) {
+                roomsByType.add(room);
+            }
+        }
 
-         rooms.clear();
+        rooms.clear();
 
-         for (Room r : roomsByType){
-             if (isRoomAvailable(r.getId(),checkIn,checkOut)){
-                 rooms.add(r);
-             }
-         }
+        for (Room r : roomsByType){
+            if (isRoomAvailable(r.getId(),checkIn,checkOut)){
+                rooms.add(r);
+            }
+        }
 
-         return rooms;
+        return rooms;
     }
 
     public void addRoom(Room room) {
         if (!roomRepository.existsByRoomNumber(room.getRoomNumber())){
-            room.setActives(true);
+            room.setStatus(true);
             roomRepository.save(room); //Можем да имаме еднакви стаи в хотела
         }else {
             throw new IllegalArgumentException("Не могат две стаи да са с един и същ номер");
@@ -125,7 +125,7 @@ public class RoomService {
             throw new RuntimeException("Стаята е заета и не може да бъде деактивирана");
         }
 
-        room.setActives(false);
+        room.setStatus(false);
         roomRepository.save(room);
     }
 
@@ -133,7 +133,7 @@ public class RoomService {
         Room room = roomRepository.findById(roomId)
                 .orElseThrow(() -> new IllegalArgumentException("Стаята не съществува"));
 
-        room.setActives(true);
+        room.setStatus(true);
         roomRepository.save(room);
     }
 
@@ -172,7 +172,7 @@ public class RoomService {
         }
     }
 
-     boolean existRoomById(int roomId) {
+    boolean existRoomById(int roomId) {
         if (!roomRepository.existsById(roomId)) {
             throw new IllegalArgumentException("Стаята не съществува");
         }
