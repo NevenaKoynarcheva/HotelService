@@ -18,14 +18,14 @@ public class AdminController{
         return ResponseEntity.ok("Стаята е добавена успешно");
     }
 
-    @PutMapping("/rooms/{roomId}/deactivate")
-    public ResponseEntity<String> deactivateRoom(@PathVariable int roomId) {
+    @PutMapping("/rooms/deactivate")
+    public ResponseEntity<String> deactivateRoom(@RequestParam int roomId) {
         adminService.deactivateRoom(roomId);
         return ResponseEntity.ok("Стаята е деактивирана успешно");
     }
 
-    @PutMapping("/rooms/{roomId}/reactivate")
-    public ResponseEntity<String> reactivateRoom(@PathVariable int roomId) {
+    @PutMapping("/rooms/reactivate")
+    public ResponseEntity<String> reactivateRoom(@RequestParam int roomId) {
         adminService.reactivateRoom(roomId);
         return ResponseEntity.ok("Стаята е реактивирана успешно");
     }
@@ -36,14 +36,14 @@ public class AdminController{
         return ResponseEntity.ok("Удобството е добавено успешно");
     }
 
-    @DeleteMapping("/rooms/{roomId}/benefits")
-    public ResponseEntity<String> deleteBenefit(@PathVariable int roomId, @RequestParam String benefit) {
+    @DeleteMapping("/rooms/benefits")
+    public ResponseEntity<String> deleteBenefit(@RequestParam int roomId, @RequestParam String benefit) {
         adminService.deleteBenefit(roomId, benefit);
         return ResponseEntity.ok("Удобството е премахнато успешно");
     }
 
-    @PutMapping("/rooms/{roomId}/price")
-    public ResponseEntity<String> changePrice(@PathVariable int roomId, @RequestParam double price) {
+    @PutMapping("/rooms/price")
+    public ResponseEntity<String> changePrice(@RequestParam int roomId, @RequestParam double price) {
         adminService.changePrice(roomId, price);
         return ResponseEntity.ok("Цената е променена успешно");
     }

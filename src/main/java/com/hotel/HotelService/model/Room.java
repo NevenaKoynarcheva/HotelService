@@ -32,7 +32,7 @@ public class Room {
     @NotNull
     private boolean status;
 
-    public Room(int id, int roomNumber, RoomType roomType, double price, String benefits, LocalDate checkIn, LocalDate checkOut, boolean bookingStatus, boolean status) {
+    public Room(int id, int roomNumber, RoomType roomType, double price, String benefits, LocalDate checkIn, LocalDate checkOut, boolean bookingStatus) {
         this.id = id;
         this.roomNumber = roomNumber;
         this.roomType = roomType;
@@ -41,7 +41,7 @@ public class Room {
         this.checkIn = checkIn;
         this.checkOut = checkOut;
         this.bookingStatus = bookingStatus;
-        this.status = status;
+        this.status = true;
     }
 
     public Room() {

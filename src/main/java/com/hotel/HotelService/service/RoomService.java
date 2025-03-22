@@ -143,7 +143,10 @@ public class RoomService {
 
             List<String> benefits = Arrays.stream(room.getBenefits().split(", ")).toList();
             if (!benefits.contains(benefit)) {
-                room.setBenefits(", " + benefit);
+                room.setBenefits(room.getBenefits() + ", " + benefit);
+                roomRepository.save(room);
+            }else{
+                throw new IllegalArgumentException("Стаята съдържа това удобство");
             }
         }
 
@@ -160,6 +163,9 @@ public class RoomService {
 
             if (index != -1) {
                 benefits.remove(index);
+                String updatedBenefits = String.join(", ", benefits);
+                room.setBenefits(updatedBenefits);
+                roomRepository.save(room);
             } else {
                 throw new IllegalArgumentException("Стаята не съдържа това удобство");
             }
@@ -169,7 +175,8 @@ public class RoomService {
     public void changePrice(int roomId, double price){
         if (existRoomById(roomId)){
             roomRepository.getReferenceById(roomId).setPrice(price);
-        }
+            roomRepository.save(roomRepository.getReferenceById(roomId));
+        }else {throw new IllegalArgumentException("Стаята не съществува");}
     }
 
     boolean existRoomById(int roomId) {
