@@ -44,7 +44,7 @@ public class CustomerService {
 
         Customer customer = new Customer();
         customer.setUsername(username);
-        customer.setPassword(password); // In a real application, you should hash the password
+        customer.setPassword(password);
         customer.setEmail(email);
         customerRepository.save(customer);
     }

@@ -47,4 +47,13 @@ public class AdminController{
         adminService.changePrice(roomId, price);
         return ResponseEntity.ok("Цената е променена успешно");
     }
+
+    @PutMapping("/hotel/name")
+    public ResponseEntity<String> changeHotelName(@RequestParam String name, @RequestParam int id) {
+        return ResponseEntity.ok(adminService.changeName(name, id));
+    }
+    @PutMapping("/hotel/description")
+    public ResponseEntity<String> changeHotelDescription(@RequestParam String description, @RequestParam int id) {
+        return ResponseEntity.ok(adminService.changeDescription(description, id));
+    }
 }

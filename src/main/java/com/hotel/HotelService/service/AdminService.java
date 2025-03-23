@@ -12,6 +12,8 @@ public class AdminService {
     private AdminRepository adminRepository;
     @Autowired
     private RoomService roomService;
+    @Autowired
+    private HotelService hotelService;
     private Admin getAdmin(String username) {
         return adminRepository.findByUsername(username).orElse(null);
     }
@@ -55,6 +57,14 @@ public class AdminService {
 
     private boolean existRoomById(int roomId) {
         return roomService.existRoomById(roomId);
+    }
+
+    public String changeName(String name, int id){
+        return hotelService.changeName(name, id);
+    }
+
+    public String changeDescription(String description, int id){
+        return hotelService.changeDescription(description, id);
     }
 
 }
