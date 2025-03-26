@@ -42,19 +42,4 @@ public class CustomerController {
         return ResponseEntity.ok(availableRooms);
     }
 
-    @PostMapping("/check-in")
-    public ResponseEntity<Room> checkIn(
-            @RequestParam int roomId,
-            @RequestParam LocalDate checkIn) {
-        Room room = customerService.checkIn(roomId, checkIn);
-        return ResponseEntity.ok(room);
-    }
-
-    @PostMapping("/check-out")
-    public ResponseEntity<Room> checkOut(
-            @RequestParam int roomId,
-            @RequestParam LocalDate checkOut) {
-        Room room = customerService.checkOut(roomId, checkOut);
-        return ResponseEntity.ok(room);
-    }
 }

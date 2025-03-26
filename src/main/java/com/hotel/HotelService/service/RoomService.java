@@ -40,16 +40,6 @@ public class RoomService {
         }
     }
 
-
-//    public void deleteRoom(int id){
-//        if (findRoomById(id)!=null){
-//            roomRepository.deleteById(id);
-//        }else{
-//            throw new IllegalArgumentException("Липсва такава стая");
-//        }
-//
-//    }
-
     public boolean isRoomAvailable(int roomId, LocalDate checkIn, LocalDate checkOut) {
         if (checkIn.isAfter(checkOut)) {
             throw new IllegalArgumentException("Невалидни дати: checkIn трябва да е преди checkOut");
@@ -64,28 +54,6 @@ public class RoomService {
         LocalDate existingCheckOut = room.getCheckOut();
         return checkIn.isAfter(existingCheckOut) || checkOut.isBefore(existingCheckIn);
     }
-
-    public Room checkIn(int roomId, LocalDate checkInDate) {
-        Room room = findRoomById(roomId);
-        if (room.getBookingStatus()) {
-            throw new RuntimeException("Стаята е заета");
-        }
-
-        room.setCheckIn(checkInDate);
-        room.setBookingStatus(true);
-        return roomRepository.save(room);
-    }
-
-    public Room checkOut(int roomId, LocalDate checkOutDate) {
-        Room room = findRoomById(roomId);
-        if (!room.getBookingStatus()) {
-            throw new RuntimeException("Стаята е свободна");
-        }
-        room.setCheckOut(checkOutDate);
-        room.setBookingStatus(false);
-        return roomRepository.save(room);
-    }
-
 
     public List<Room> findAvailableRoomsByType(RoomType roomType, LocalDate checkIn, LocalDate checkOut) {
         List<Room> rooms = findAll();
@@ -188,19 +156,3 @@ public class RoomService {
 
 }
 
-//can be used : public List<Room> findAvailableRoomsByType(RoomType roomType, LocalDate checkIn, LocalDate checkOut) {
-//    // Fetch rooms of the specified type directly from the repository
-//    List<Room> roomsByType = roomRepository.findByRoomType(roomType);
-//
-//    // Filter rooms by availability
-//    List<Room> availableRooms = new ArrayList<>();
-//    for (Room room : roomsByType) {
-//        if (isRoomAvailable(room.getId(), checkIn, checkOut)) {
-//            availableRooms.add(room);
-//        }
-//    }
-//
-//    return availableRooms;
-//}public interface RoomRepository extends JpaRepository<Room, Integer> {
-//    List<Room> findByRoomType(RoomType roomType); // Add this method
-//}

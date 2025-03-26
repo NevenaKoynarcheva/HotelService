@@ -29,13 +29,13 @@ public class CustomerService {
                     throw new RuntimeException("Invalid password");
                 }
             }
-            // Proceed with login logic (e.g., setting a session or returning a token)
+
         }
     }
 
     public void saveUser(String username, String password, String email) {
         if (customerRepository.existsByUsername(username)) {
-            throw new RuntimeException("Вече е регистриран потребител с този username");
+            throw new RuntimeException("Вече е регистриран потребител с това име");
         }
 
         if (customerRepository.existsByEmail(email)) {
@@ -52,15 +52,5 @@ public class CustomerService {
     public List<Room> findAvailableRoom(RoomType roomType, LocalDate checkIn, LocalDate checkOut){
         return roomService.findAvailableRoomsByType(roomType, checkIn, checkOut);
     }
-
-    public Room checkIn(int roomId, LocalDate checkIn){
-        return roomService.checkIn(roomId, checkIn);
-    }
-
-    public Room checkOut(int roomId, LocalDate checkOut){
-        return roomService.checkOut(roomId, checkOut);
-    }
-
-
 
 }

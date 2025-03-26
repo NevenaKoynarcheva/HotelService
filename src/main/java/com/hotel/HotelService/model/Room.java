@@ -20,11 +20,6 @@ public class Room {
     private double price;
     @NotNull
     private String benefits;
-    // Convert list to string
-    //  String benefitsString = String.join(",", benefitsList);
-
-    // Convert string to list
-    //List<String> benefitsList = Arrays.asList(benefitsString.split(","));
     private LocalDate checkIn;
     private LocalDate checkOut;
     @NotNull
