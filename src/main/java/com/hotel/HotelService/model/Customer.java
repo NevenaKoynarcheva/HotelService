@@ -2,6 +2,8 @@ package com.hotel.HotelService.model;
 import jakarta.persistence.*;
 import org.antlr.v4.runtime.misc.NotNull;
 
+import java.util.List;
+
 @Entity
 @Table(name = "customer")
 
@@ -15,6 +17,8 @@ public class Customer {
     private String password;
     @NotNull
     private String email;
+    @OneToMany(mappedBy = "customer")
+    private List<Reservation> reservations;
 
     public Customer(int id, String username, String password, String email) {
         this.id = id;

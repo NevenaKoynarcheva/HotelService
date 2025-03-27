@@ -20,21 +20,18 @@ public class Room {
     private double price;
     @NotNull
     private String benefits;
-    private LocalDate checkIn;
-    private LocalDate checkOut;
     @NotNull
     private boolean bookingStatus;
     @NotNull
     private boolean status;
-
-    public Room(int id, int roomNumber, RoomType roomType, double price, String benefits, LocalDate checkIn, LocalDate checkOut, boolean bookingStatus) {
+    @OneToMany(mappedBy = "room")
+    private List<Reservation> reservations;
+    public Room(int id, int roomNumber, RoomType roomType, double price, String benefits, boolean bookingStatus) {
         this.id = id;
         this.roomNumber = roomNumber;
         this.roomType = roomType;
         this.price = price;
         this.benefits = benefits;
-        this.checkIn = checkIn;
-        this.checkOut = checkOut;
         this.bookingStatus = bookingStatus;
         this.status = true;
     }
@@ -90,27 +87,18 @@ public class Room {
         this.bookingStatus = bookingStatus;
     }
 
-    public void setCheckIn(LocalDate checkIn) {
-        this.checkIn = checkIn;
-    }
-
-    public LocalDate getCheckIn() {
-        return checkIn;
-    }
-
-    public LocalDate getCheckOut() {
-        return checkOut;
-    }
-
-    public void setCheckOut(LocalDate checkOut) {
-        this.checkOut = checkOut;
-    }
-
     public boolean getStatus() {
         return status;
     }
 
     public void setStatus(boolean status) {
         this.status = status;
+    }
+    public List<Reservation> getReservations() {
+        return reservations;
+    }
+
+    public void setReservations(List<Reservation> reservations) {
+        this.reservations = reservations;
     }
 }

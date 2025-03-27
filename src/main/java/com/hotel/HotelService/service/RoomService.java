@@ -1,19 +1,21 @@
 package com.hotel.HotelService.service;
+import com.hotel.HotelService.model.Reservation;
+import com.hotel.HotelService.model.ReservationStatus;
 import com.hotel.HotelService.model.Room;
 import com.hotel.HotelService.model.RoomType;
+import com.hotel.HotelService.repository.ReservationRepository;
 import com.hotel.HotelService.repository.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
+import java.util.*;
 @Service
 public class RoomService {
     @Autowired
     private RoomRepository roomRepository;
+    @Autowired
+    private ReservationRepository reservationRepository;
     public void saveRoom(Room room){
         roomRepository.save(room);
     }
@@ -41,19 +43,26 @@ public class RoomService {
     }
 
     public boolean isRoomAvailable(int roomId, LocalDate checkIn, LocalDate checkOut) {
-        if (checkIn.isAfter(checkOut)) {
-            throw new IllegalArgumentException("Невалидни дати: checkIn трябва да е преди checkOut");
-        }
+            Room room = findRoomById(roomId);
+            if (room == null || !room.getStatus()) {
+                return false;
+            }
 
-        Room room = findRoomById(roomId);
-        if (!room.getBookingStatus()) {
+            List<Reservation> activeReservations
+                    = reservationRepository.findByRoomIdAndStatusNot(roomId, ReservationStatus.CANCELLED);
+
+            for (Reservation r : activeReservations) {
+                if (datesOverlap(checkIn, checkOut, r.getCheckInDate(), r.getCheckOutDate())) {
+                    return false;
+                }
+            }
             return true;
         }
 
-        LocalDate existingCheckIn = room.getCheckIn();
-        LocalDate existingCheckOut = room.getCheckOut();
-        return checkIn.isAfter(existingCheckOut) || checkOut.isBefore(existingCheckIn);
-    }
+        private boolean datesOverlap(LocalDate start1, LocalDate end1,
+                LocalDate start2, LocalDate end2) {
+            return !start1.isAfter(end2) && !end1.isBefore(start2);}
+
 
     public List<Room> findAvailableRoomsByType(RoomType roomType, LocalDate checkIn, LocalDate checkOut) {
         List<Room> rooms = findAll();
