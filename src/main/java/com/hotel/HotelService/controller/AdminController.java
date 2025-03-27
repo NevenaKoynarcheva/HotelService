@@ -13,8 +13,8 @@ public class AdminController{
     private AdminService adminService;
 
     @PostMapping("/rooms")
-    public ResponseEntity<String> addRoom(@RequestBody Room room) {
-        adminService.addRoom(room);
+    public ResponseEntity<String> addRoom(@RequestBody Room room, @RequestParam int adminId) {
+        adminService.addRoom(room, adminId);
         return ResponseEntity.ok("Стаята е добавена успешно");
     }
 
@@ -49,11 +49,11 @@ public class AdminController{
     }
 
     @PutMapping("/hotel/name")
-    public ResponseEntity<String> changeHotelName(@RequestParam String name, @RequestParam int id) {
-        return ResponseEntity.ok(adminService.changeName(name, id));
+    public ResponseEntity<String> changeHotelName(@RequestParam String name, @RequestParam int id, @RequestParam int adminId) {
+        return ResponseEntity.ok(adminService.changeName(name, id, adminId));
     }
     @PutMapping("/hotel/description")
-    public ResponseEntity<String> changeHotelDescription(@RequestParam String description, @RequestParam int id) {
-        return ResponseEntity.ok(adminService.changeDescription(description, id));
+    public ResponseEntity<String> changeHotelDescription(@RequestParam String description, @RequestParam int id, @RequestParam int adminId) {
+        return ResponseEntity.ok(adminService.changeDescription(description, id, adminId));
     }
 }

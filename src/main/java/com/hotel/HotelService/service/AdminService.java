@@ -1,10 +1,13 @@
 package com.hotel.HotelService.service;
 
 import com.hotel.HotelService.model.Admin;
+import com.hotel.HotelService.model.AdminRole;
 import com.hotel.HotelService.model.Room;
 import com.hotel.HotelService.repository.AdminRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Arrays;
 
 @Service
 public class AdminService {
@@ -30,7 +33,8 @@ public class AdminService {
         }
     }
 
-    public void addRoom(Room room) {
+    public void addRoom(Room room, int adminId) {
+        checkAdminRole(adminId, AdminRole.HighLevel);
       roomService.addRoom(room);
     }
 
@@ -56,15 +60,29 @@ public class AdminService {
     }
 
     private boolean existRoomById(int roomId) {
-        return roomService.existRoomById(roomId);
-    }
+        return roomService.existRoomById(roomId);}
 
-    public String changeName(String name, int id){
+    public String changeName(String name, int id, int adminId){
+        checkAdminRole(adminId, AdminRole.HighLevel);
         return hotelService.changeName(name, id);
     }
 
-    public String changeDescription(String description, int id){
+    public String changeDescription(String description, int id, int adminId){
+        checkAdminRole(adminId, AdminRole.HighLevel);
         return hotelService.changeDescription(description, id);
+    }
+    private void checkAdminRole(int adminId, AdminRole... allowedRoles) {
+        Admin admin = adminRepository.findById(adminId)
+                .orElseThrow(() -> new RuntimeException("Липсва такъв админ"));
+
+        for (AdminRole role : allowedRoles) {
+            if (admin.getAdminRole() == role) {
+                return;
+            }
+        }
+
+        throw new RuntimeException("Отказан достъп. Изисква се роля на: " +
+                Arrays.toString(allowedRoles));
     }
 
 }
