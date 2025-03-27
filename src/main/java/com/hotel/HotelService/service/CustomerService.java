@@ -53,4 +53,11 @@ public class CustomerService {
         return roomService.findAvailableRoomsByType(roomType, checkIn, checkOut);
     }
 
+    public Customer getCustomerById(int customerId) {
+        if (customerRepository.existsById(customerId)){
+            return customerRepository.getReferenceById(customerId);
+        }else {
+            throw new IllegalArgumentException("Няма такъв клиент");
+        }
+    }
 }

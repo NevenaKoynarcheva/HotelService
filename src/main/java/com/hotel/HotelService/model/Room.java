@@ -21,18 +21,15 @@ public class Room {
     @NotNull
     private String benefits;
     @NotNull
-    private boolean bookingStatus;
-    @NotNull
     private boolean status;
     @OneToMany(mappedBy = "room")
     private List<Reservation> reservations;
-    public Room(int id, int roomNumber, RoomType roomType, double price, String benefits, boolean bookingStatus) {
+    public Room(int id, int roomNumber, RoomType roomType, double price, String benefits) {
         this.id = id;
         this.roomNumber = roomNumber;
         this.roomType = roomType;
         this.price = price;
         this.benefits = benefits;
-        this.bookingStatus = bookingStatus;
         this.status = true;
     }
 
@@ -79,14 +76,6 @@ public class Room {
         this.benefits = benefits;
     }
 
-    public boolean getBookingStatus() {
-        return bookingStatus;
-    }
-
-    public void setBookingStatus(boolean bookingStatus) {
-        this.bookingStatus = bookingStatus;
-    }
-
     public boolean getStatus() {
         return status;
     }
@@ -94,6 +83,7 @@ public class Room {
     public void setStatus(boolean status) {
         this.status = status;
     }
+
     public List<Reservation> getReservations() {
         return reservations;
     }
