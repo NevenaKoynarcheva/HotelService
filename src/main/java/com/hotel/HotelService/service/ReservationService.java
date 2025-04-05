@@ -30,11 +30,11 @@ public class ReservationService {
         return reservationRepository.save(reservation);
     }
 
-    public boolean isRoomAvailable(int roomId, LocalDate checkIn, LocalDate checkOut) {
-        return reservationRepository
-                .findConflictingReservations(roomId, checkIn, checkOut, ReservationStatus.CANCELLED)
-                .isEmpty();
-    }
+//    public boolean isRoomAvailable(int roomId, LocalDate checkIn, LocalDate checkOut) {
+//        return reservationRepository
+//                .findConflictingReservations(roomId, checkIn, checkOut, ReservationStatus.CANCELLED)
+//                .isEmpty();
+//    }
 
     @Transactional
     public void cancelReservation(int reservationId) {
@@ -53,7 +53,7 @@ public class ReservationService {
                 .toList();
 
         return rooms.stream()
-                .filter(room -> isRoomAvailable(room.getId(), checkIn, checkOut))
+                //.filter(room -> isRoomAvailable(room.getId(), checkIn, checkOut))
                 .toList();
     }
 
@@ -71,9 +71,9 @@ public class ReservationService {
         if (room == null || !room.getStatus()) {
             throw new RuntimeException("Стаята не е свободна");
         }
-        if (!isRoomAvailable(roomId, checkIn, checkOut)) {
-            throw new RuntimeException("Стаята е вече резервирана за тези дни");
-        }
+//        if (!isRoomAvailable(roomId, checkIn, checkOut)) {
+//            throw new RuntimeException("Стаята е вече резервирана за тези дни");
+//        }
         return room;
     }
 

@@ -13,5 +13,5 @@ public interface ReservationRepository extends JpaRepository<Reservation, Intege
 
     List<Reservation> findByCustomerId(int customerId);
 
-    Collection<Object> findConflictingReservations(int roomId, LocalDate checkIn, LocalDate checkOut, ReservationStatus reservationStatus);
+
 }

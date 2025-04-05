@@ -98,7 +98,7 @@ public class RoomService {
         Room room = roomRepository.findById(roomId)
                 .orElseThrow(() -> new IllegalArgumentException("Стаята не съществува"));
 
-        if (room.getBookingStatus()) {
+        if (room.getStatus()) {
             throw new RuntimeException("Стаята е заета и не може да бъде деактивирана");
         }
 
